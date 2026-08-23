@@ -41,7 +41,7 @@ export async function POST(request: Request) {
 
     try {
       // Select Inbox
-      await client.select("INBOX");
+      await client.mailboxOpen("INBOX");
 
       // Search for emails from reward@tremendous.com
       const uids = await client.search({ from: "reward@tremendous.com" });
