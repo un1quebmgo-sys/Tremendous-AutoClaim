@@ -1,0 +1,4 @@
+{
+  "summary": "Next.js API route that connects to Gmail or Outlook IMAP, searches for reward emails, decodes Quoted-Printable body, and extracts Tremendous reward URLs.",
+  "updatedAt": "2026-08-23T18:07:32.742993800Z"
+}
