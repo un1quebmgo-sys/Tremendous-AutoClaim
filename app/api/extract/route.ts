@@ -56,12 +56,12 @@ export async function POST(request: Request) {
             ? message.envelope.date.toISOString()
             : new Date().toISOString();
 
-          // Regex to match Tremendous URLs
-          const urlPattern = /https?:\/\/[^\s<>"]*tremendous\.com[^\s<>"]*/g;
+          // Regex to match Tremendous reward redeem/claim links specifically
+          const urlPattern = /https?:\/\/[^\s<>"]*tremendous\.com\/(?:redeem|claim|c)\/[^\s<>"]+/g;
           const matches = decodedBody.match(urlPattern);
 
           if (matches) {
-            // Deduplicate
+            // Deduplicate within the email
             const uniqueMatches = Array.from(new Set(matches));
             for (const url of uniqueMatches) {
               // Clean trailing or leading HTML entities, quotes, brackets

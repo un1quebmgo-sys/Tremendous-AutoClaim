@@ -132,7 +132,18 @@ export default function Home() {
         setAccounts((prev) =>
           prev.map((a) => (a.id === acc.id ? { ...a, status: "success", linksCount: links.length } : a))
         );
-        setRewardLinks((prev) => [...prev, ...links]);
+        setRewardLinks((prev) => {
+          const combined = [...prev, ...links];
+          const unique = [];
+          const seen = new Set();
+          for (const item of combined) {
+            if (!seen.has(item.url)) {
+              seen.add(item.url);
+              unique.push(item);
+            }
+          }
+          return unique;
+        });
       } catch (err: any) {
         setAccounts((prev) =>
           prev.map((a) => (a.id === acc.id ? { ...a, status: "error", error: err.message || "Error" } : a))
