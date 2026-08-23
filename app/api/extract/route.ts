@@ -41,26 +41,22 @@ export async function POST(request: Request) {
 
     try {
       // Select Inbox
-      await client.mailboxOpen("INBOX");
+      const mailbox = await client.mailboxOpen("INBOX");
 
-      // Fetch the last 10 email UIDs to verify it works
-      const uids = [];
-      for await (let msg of client.list({}, { uid: true })) {
-        uids.push(msg.uid);
-      }
-      
-      // Get the latest 10 emails
-      const targetUids = uids.slice(-10);
+      // Fetch the last 10 email UIDs using sequence range (e.g. "90:100")
+      const totalMessages = mailbox.exists || 0;
+      const startSeq = Math.max(1, totalMessages - 9);
+      const seqRange = `${startSeq}:${totalMessages}`;
 
-      for (const uid of targetUids) {
-        const message = await client.fetchOne(uid, { source: true, envelope: true });
-        if (message && message.source) {
-          const rawBody = message.source.toString("utf-8");
-          const decodedBody = decodeQuotedPrintable(rawBody);
-          const subject = message.envelope?.subject || "No Subject";
-          const date = message.envelope?.date
-            ? message.envelope.date.toISOString()
-            : new Date().toISOString();
+      if (totalMessages > 0) {
+        for await (let message of client.fetch(seqRange, { source: true, envelope: true })) {
+          if (message && message.source) {
+            const rawBody = message.source.toString("utf-8");
+            const decodedBody = decodeQuotedPrintable(rawBody);
+            const subject = message.envelope?.subject || "No Subject";
+            const date = message.envelope?.date
+              ? message.envelope.date.toISOString()
+              : new Date().toISOString();
 
           // Regex to match any HTTP/HTTPS URLs (or tremendous specifically if wanted, let's match any link for testing)
           const urlPattern = /https?:\/\/[^\s<>"]+/g;
@@ -90,7 +86,8 @@ export async function POST(request: Request) {
           }
         }
       }
-    } finally {
+    }
+  } finally {
       lock.release();
     }
 
