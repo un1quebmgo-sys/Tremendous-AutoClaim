@@ -43,11 +43,12 @@ export async function POST(request: Request) {
       // Select Inbox
       await client.mailboxOpen("INBOX");
 
-      // Search for emails from tremendous.com OR containing tremendous.com in the body
+      // Search for emails from tremendous.com AND subject containing "TimePay" or "Timepay"
       const uids = await client.search({
+        from: "tremendous.com",
         or: [
-          { from: "tremendous.com" },
-          { body: "tremendous.com" }
+          { subject: "TimePay" },
+          { subject: "Timepay" }
         ]
       });
 
