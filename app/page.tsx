@@ -209,6 +209,73 @@ export default function Home() {
               </button>
             </form>
 
+            {/* Help Accordion */}
+            <div className="border border-slate-800 rounded-lg p-3 bg-slate-900/50">
+              <details className="group">
+                <summary className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 cursor-pointer select-none flex justify-between items-center list-none">
+                  <span>🔑 Detailed App Password Guide</span>
+                  <span className="transition-transform group-open:rotate-180 text-[10px]">▼</span>
+                </summary>
+                <div className="mt-3 text-xs text-slate-300 space-y-4 pt-2 border-t border-slate-800">
+                  <div>
+                    <h4 className="font-bold text-white mb-1 flex items-center gap-1">
+                      <span>Ⓜ️</span> Outlook / Hotmail (Microsoft)
+                    </h4>
+                    <ol className="list-decimal list-inside space-y-1.5 text-slate-400 text-[11px]">
+                      <li>
+                        Go to the{" "}
+                        <a
+                          href="https://account.microsoft.com/security"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-emerald-450 hover:underline font-semibold"
+                        >
+                          Microsoft Security Dashboard
+                        </a>
+                      </li>
+                      <li>Click on <b>Advanced security options</b>.</li>
+                      <li>Enable <b>Two-step verification</b> under the security settings if it isn't active.</li>
+                      <li>Scroll down to the <b>App passwords</b> header.</li>
+                      <li>Click <b>Create a new app password</b> and copy the 16-character key.</li>
+                    </ol>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white mb-1 flex items-center gap-1">
+                      <span>🔴</span> Gmail (Google)
+                    </h4>
+                    <ol className="list-decimal list-inside space-y-1.5 text-slate-400 text-[11px]">
+                      <li>
+                        Enable IMAP inside your{" "}
+                        <a
+                          href="https://mail.google.com/mail/u/0/#settings/fwdandpop"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-emerald-450 hover:underline font-semibold"
+                        >
+                          Gmail IMAP Settings
+                        </a>
+                        .
+                      </li>
+                      <li>
+                        Open your{" "}
+                        <a
+                          href="https://myaccount.google.com/security"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-emerald-450 hover:underline font-semibold"
+                        >
+                          Google Account Security
+                        </a>
+                      </li>
+                      <li>Turn on <b>2-Step Verification</b>.</li>
+                      <li>Click on 2-Step Verification, scroll to the bottom, and click <b>App passwords</b>.</li>
+                      <li>Type a name (e.g. "AutoClaim") and copy the 16-letter password from the yellow box.</li>
+                    </ol>
+                  </div>
+                </div>
+              </details>
+            </div>
+
             <hr className="border-slate-850" />
 
             {/* Account List */}
