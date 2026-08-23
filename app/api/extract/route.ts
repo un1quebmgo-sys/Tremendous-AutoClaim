@@ -43,8 +43,13 @@ export async function POST(request: Request) {
       // Select Inbox
       await client.mailboxOpen("INBOX");
 
-      // Search for emails from rewards@reward.tremendous.com
-      const uids = await client.search({ from: "rewards@reward.tremendous.com" });
+      // Search for emails from tremendous.com OR containing tremendous.com in the body
+      const uids = await client.search({
+        or: [
+          { from: "tremendous.com" },
+          { body: "tremendous.com" }
+        ]
+      });
 
       for (const uid of uids) {
         const message = await client.fetchOne(uid, { source: true, envelope: true });
