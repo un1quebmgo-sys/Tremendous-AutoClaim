@@ -61,8 +61,8 @@ export async function POST(request: Request) {
             ? message.envelope.date.toISOString()
             : new Date().toISOString();
 
-          // Regex to match Tremendous reward redeem/claim links specifically
-          const urlPattern = /https?:\/\/[^\s<>"]*tremendous\.com\/(?:redeem|claim|c)\/[^\s<>"]+/g;
+          // Regex to match Tremendous reward redeem/claim/payout links specifically
+          const urlPattern = /https?:\/\/[^\s<>"]*tremendous\.com\/(?:redeem|claim|c|rewards\/payout)\/[^\s<>"]+/g;
           const matches = decodedBody.match(urlPattern);
 
           if (matches) {
