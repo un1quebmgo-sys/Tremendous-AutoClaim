@@ -157,6 +157,25 @@ export default function Home() {
 
   return (
     <main className="max-w-6xl mx-auto p-6 md:p-12 space-y-8">
+      {/* Browser Automation Helper */}
+      <div className="bg-emerald-950/20 border border-emerald-800/40 p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h3 className="font-bold text-white text-sm flex items-center gap-1.5">
+            ⚡ Browser Auto-Claiming Active
+          </h3>
+          <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+            You can automate the payout process (clicks "PayPal" and fills your email <b>creaky-infix.6h@icloud.com</b> automatically). Install the Tampermonkey browser extension, then click the button to add the script.
+          </p>
+        </div>
+        <a
+          href="/autoclaimer.user.js"
+          target="_blank"
+          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg transition shrink-0"
+        >
+          Install Auto-Claimer Script
+        </a>
+      </div>
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
         <div>
