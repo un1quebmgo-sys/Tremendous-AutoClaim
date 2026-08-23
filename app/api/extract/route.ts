@@ -41,25 +41,23 @@ export async function POST(request: Request) {
 
     try {
       // Select Inbox
-      const mailbox = await client.mailboxOpen("INBOX");
+      await client.mailboxOpen("INBOX");
 
-      // Fetch the last 10 email UIDs using sequence range (e.g. "90:100")
-      const totalMessages = mailbox.exists || 0;
-      const startSeq = Math.max(1, totalMessages - 9);
-      const seqRange = `${startSeq}:${totalMessages}`;
+      // Search for emails from rewards@reward.tremendous.com
+      const uids = await client.search({ from: "rewards@reward.tremendous.com" });
 
-      if (totalMessages > 0) {
-        for await (let message of client.fetch(seqRange, { source: true, envelope: true })) {
-          if (message && message.source) {
-            const rawBody = message.source.toString("utf-8");
-            const decodedBody = decodeQuotedPrintable(rawBody);
-            const subject = message.envelope?.subject || "No Subject";
-            const date = message.envelope?.date
-              ? message.envelope.date.toISOString()
-              : new Date().toISOString();
+      for (const uid of uids) {
+        const message = await client.fetchOne(uid, { source: true, envelope: true });
+        if (message && message.source) {
+          const rawBody = message.source.toString("utf-8");
+          const decodedBody = decodeQuotedPrintable(rawBody);
+          const subject = message.envelope?.subject || "No Subject";
+          const date = message.envelope?.date
+            ? message.envelope.date.toISOString()
+            : new Date().toISOString();
 
-          // Regex to match any HTTP/HTTPS URLs (or tremendous specifically if wanted, let's match any link for testing)
-          const urlPattern = /https?:\/\/[^\s<>"]+/g;
+          // Regex to match Tremendous URLs
+          const urlPattern = /https?:\/\/[^\s<>"]*tremendous\.com[^\s<>"]*/g;
           const matches = decodedBody.match(urlPattern);
 
           if (matches) {
@@ -74,20 +72,16 @@ export async function POST(request: Request) {
                 .split(">")[0]
                 .split("<")[0];
               
-              // Only return links that look like actual websites (exclude tracking/internal email schemas)
-              if (cleanUrl.includes(".") && cleanUrl.length > 10) {
-                links.push({
-                  subject,
-                  url: cleanUrl,
-                  date,
-                });
-              }
+              links.push({
+                subject,
+                url: cleanUrl,
+                date,
+              });
             }
           }
         }
       }
-    }
-  } finally {
+    } finally {
       lock.release();
     }
 
