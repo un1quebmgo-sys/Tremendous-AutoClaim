@@ -223,19 +223,18 @@ export default function Home() {
                     </h4>
                     <ol className="list-decimal list-inside space-y-1.5 text-slate-400 text-[11px]">
                       <li>
-                        Go to the{" "}
+                        Go directly to your{" "}
                         <a
-                          href="https://account.microsoft.com/security"
+                          href="https://account.live.com/proofs/Manage"
                           target="_blank"
                           rel="noreferrer"
-                          className="text-emerald-450 hover:underline font-semibold"
+                          className="text-emerald-400 hover:underline font-semibold"
                         >
-                          Microsoft Security Dashboard
-                        </a>
+                          Microsoft Advanced Security Options
+                        </a>.
                       </li>
-                      <li>Click on <b>Advanced security options</b>.</li>
-                      <li>Enable <b>Two-step verification</b> under the security settings if it isn't active.</li>
-                      <li>Scroll down to the <b>App passwords</b> header.</li>
+                      <li>Enable <b>Two-step verification</b> if it isn't active.</li>
+                      <li>Scroll to the <b>App passwords</b> header.</li>
                       <li>Click <b>Create a new app password</b> and copy the 16-character key.</li>
                     </ol>
                   </div>
@@ -245,7 +244,7 @@ export default function Home() {
                     </h4>
                     <ol className="list-decimal list-inside space-y-1.5 text-slate-400 text-[11px]">
                       <li>
-                        Enable IMAP inside your{" "}
+                        Enable IMAP in your{" "}
                         <a
                           href="https://mail.google.com/mail/u/0/#settings/fwdandpop"
                           target="_blank"
@@ -253,23 +252,21 @@ export default function Home() {
                           className="text-emerald-450 hover:underline font-semibold"
                         >
                           Gmail IMAP Settings
-                        </a>
-                        .
+                        </a>.
                       </li>
                       <li>
-                        Open your{" "}
+                        Go directly to{" "}
                         <a
-                          href="https://myaccount.google.com/security"
+                          href="https://myaccount.google.com/apppasswords"
                           target="_blank"
                           rel="noreferrer"
                           className="text-emerald-450 hover:underline font-semibold"
                         >
-                          Google Account Security
-                        </a>
+                          Google App Passwords
+                        </a> (requires 2-Step Verification enabled first).
                       </li>
-                      <li>Turn on <b>2-Step Verification</b>.</li>
-                      <li>Click on 2-Step Verification, scroll to the bottom, and click <b>App passwords</b>.</li>
-                      <li>Type a name (e.g. "AutoClaim") and copy the 16-letter password from the yellow box.</li>
+                      <li>Type a custom name (e.g. "AutoClaim") and click **Create**.</li>
+                      <li>Copy the 16-letter password from the yellow box.</li>
                     </ol>
                   </div>
                 </div>
