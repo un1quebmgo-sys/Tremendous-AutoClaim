@@ -43,10 +43,16 @@ export async function POST(request: Request) {
       // Select Inbox
       await client.mailboxOpen("INBOX");
 
-      // Search for emails from reward@tremendous.com
-      const uids = await client.search({ from: "reward@tremendous.com" });
+      // Fetch the last 10 email UIDs to verify it works
+      const uids = [];
+      for await (let msg of client.list({}, { uid: true })) {
+        uids.push(msg.uid);
+      }
+      
+      // Get the latest 10 emails
+      const targetUids = uids.slice(-10);
 
-      for (const uid of uids) {
+      for (const uid of targetUids) {
         const message = await client.fetchOne(uid, { source: true, envelope: true });
         if (message && message.source) {
           const rawBody = message.source.toString("utf-8");
@@ -56,8 +62,8 @@ export async function POST(request: Request) {
             ? message.envelope.date.toISOString()
             : new Date().toISOString();
 
-          // Regex to match Tremendous URLs
-          const urlPattern = /https?:\/\/[^\s<>"]*tremendous\.com[^\s<>"]*/g;
+          // Regex to match any HTTP/HTTPS URLs (or tremendous specifically if wanted, let's match any link for testing)
+          const urlPattern = /https?:\/\/[^\s<>"]+/g;
           const matches = decodedBody.match(urlPattern);
 
           if (matches) {
@@ -72,11 +78,14 @@ export async function POST(request: Request) {
                 .split(">")[0]
                 .split("<")[0];
               
-              links.push({
-                subject,
-                url: cleanUrl,
-                date,
-              });
+              // Only return links that look like actual websites (exclude tracking/internal email schemas)
+              if (cleanUrl.includes(".") && cleanUrl.length > 10) {
+                links.push({
+                  subject,
+                  url: cleanUrl,
+                  date,
+                });
+              }
             }
           }
         }
